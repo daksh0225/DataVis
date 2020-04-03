@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	figcaption {
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 20px;
+	}
+    text{
+        font-size: 10px;
+    }
+	body {
+	font-family: 'Open Sans', sans-serif;
+	}
+    .heading{
+        font-size: 20px;
+    }
+	</style>
+</head>
+<body>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" aria-labelledby="title" role="img" viewbox="0 0 1500 3000" id="s">
+        <text x="30" y="30" class="heading">Feb 3 Results</text>
+        <text x="730" y="30" class="heading">Feb 11 Results</text>
+        <text x="30" y="430" class="heading">Feb 22 Results</text>
+        <text x="730" y="430" class="heading">Feb 29 Results</text>
+        <text x="30" y="740" class="heading">March 3 Results</text>
+		<line x1="40" x2="40" y1="50" y2="210" stroke="grey"></line>
+		<line x1="40" x2="200" y1="210" y2="210" stroke="grey"></line>
+		<line x1="740" x2="740" y1="50" y2="210" stroke="grey"></line>
+		<line x1="740" x2="900" y1="210" y2="210" stroke="grey"></line>
+		<line x1="40" x2="40" y1="450" y2="610" stroke="grey"></line>
+		<line x1="40" x2="200" y1="610" y2="610" stroke="grey"></line>
+		<line x1="740" x2="740" y1="450" y2="610" stroke="grey"></line>
+        <line x1="740" x2="900" y1="610" y2="610" stroke="grey"></line>
+        <line x1="40" x2="40" y1="800" y2="1110" stroke="grey"></line>
+        <line x1="40" x2="1400" y1="1110" y2="1110" stroke="grey"></line>
+        <text x="20" y="800">200</text>
+        <text x="20" y="875">150</text>
+        <text x="20" y="950">100</text>
+        <text x="20" y="1025">50</text>
+        <text x="20" y="1100">0</text>
+        <text x="20" y="200">0</text>
+        <text x="20" y="50">40</text>
+        <text x="20" y="125">20</text>
+        <text x="720" y="200">0</text>
+        <text x="720" y="50">40</text>
+        <text x="720" y="125">20</text>
+        <text x="20" y="600">0</text>
+        <text x="20" y="450">40</text>
+        <text x="20" y="525">20</text>
+        <text x="720" y="600">0</text>
+        <text x="720" y="450">40</text>
+        <text x="720" y="525">20</text>
+        <rect x="1300" y="40" height="15" width="15" fill="red"></rect>
+        <rect x="1300" y="60" height="15" width="15" fill="blue"></rect>
+        <rect x="1300" y="80" height="15" width="15" fill="green"></rect>
+        <rect x="1300" y="100" height="15" width="15" fill="yellow"></rect>
+        <text x="1350" y="50">Yet to be assigned</text>
+        <text x="1350" y="70">Joseph R. Biden Jr.</text>
+        <text x="1350" y="90">Bernie Sanders</text>
+        <text x="1350" y="110">Elizabeth Warren</text>
+        <line x1="40" x2="40" y1="1300" y2="1810" stroke="grey"></line>
+        <line x1="40" x2="350" y1="1810" y2="1810" stroke="grey"></line>
+        <text x="20" y="1300">500</text>
+        <text x="20" y="1550">250</text>
+        <text x="20" y="1800">0</text>
+        <text x="20" y="1830">Joseph R. Biden Jr</text>
+        <text x="130" y="1830">Bernie Sanders</text>
+        <text x="240" y="1830">Elizabeth Warren</text>
+	</svg>
+	
+  
+	<script>
+        var entities = ['Yet to be assigned', 'Joseph R. Biden Jr.', 'Bernie Sanders', 'Elizabeth Warren']
+		var feb3 = [[0, 6, 12, 8]]
+        var feb3city = ['Iowa']
+        var feb11 = [[0, 0, 9, 0]]
+        var feb11city = ['New Hampshire']
+        var feb22 = [[0, 9, 24, 0]]
+        var feb22city = ['Nevada']
+        var feb29 = [[1, 38, 15, 0]]
+        var feb29city = ['South Carolina']
+        var mar3 = [[24, 25, 3, 0], [1, 0, 0, 0], [12, 12, 5, 0], [196, 83, 135, 1], [41, 5, 13, 3], [10, 7, 7, 0], [15, 32, 37, 17], [8, 36, 26, 5], [60, 35, 15, 0], [20, 11, 6, 0], [33, 21, 10, 0]
+        ,[146, 42, 38, 1], [26, 0, 3, 0], [1, 5, 10, 0], [2, 66, 30, 0]]
+        var mar3city = ['Alabama', 'American Samoa', 'Arkansas', 'California', 'Colorado', 'Maine', 'Massachussetts', 'Minniesota', 'North Carolina', 'Oklahoma', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia']
+		var x = ''
+        var colors = ['red', 'blue', 'green', 'yellow']
+		function makeSVG(tag, attrs) {
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				el.setAttribute(k, attrs[k]);
+			return el;
+		}
+		svg = document.getElementById('s')
+        var i=0
+        var x1 = 0
+        var cnt = 0
+        var x = 0
+        for(i=0; i<feb3.length; i++){
+            cnt = 0
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('x', 100+x1)
+            // console.log(x1)
+            text.setAttribute('y', 250)
+            text.setAttribute('transform', 'rotate(-45 ' + `${100+x1}`+' 250)')
+            text.append(feb3city[i])
+            svg.appendChild(text)
+            for (j=0;j<feb3[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 50+x1+cnt)
+                rect.setAttribute('y', 200-feb3[i][j]*4)
+                rect.setAttribute('height', feb3[i][j]*4)
+                rect.setAttribute('width', 30)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=30
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                svg.appendChild(g)
+            }
+            x1+=20
+            x+=90
+        }
+        x1 = 0
+        cnt = 0
+        x = 0
+        for(i=0; i<feb11.length; i++){
+            cnt = 0
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('x', 750+60+x1)
+            // console.log(x1)
+            text.setAttribute('y', 250)
+            text.setAttribute('transform', 'rotate(-45 ' + `${750+100+x1}`+' 250)')
+            text.append(feb11city[i])
+            svg.appendChild(text)
+            for (j=0;j<feb11[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 750+x1+cnt)
+                rect.setAttribute('y', 200-feb11[i][j]*4)
+                rect.setAttribute('height', feb11[i][j]*4)
+                rect.setAttribute('width', 30)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=30
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                svg.appendChild(g)
+            }
+            x1+=20
+            x+=90
+        }
+        x1 = 0
+        cnt = 0
+        x = 0
+        for(i=0; i<feb22.length; i++){
+            cnt = 0
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('x', 100+x1)
+            // console.log(x1)
+            text.setAttribute('y', 650)
+            text.setAttribute('transform', 'rotate(-45 ' + `${100+x1}`+' 650)')
+            text.append(feb22city[i])
+            svg.appendChild(text)
+            for (j=0;j<feb22[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 50+x1+cnt)
+                rect.setAttribute('y', 600-feb22[i][j]*4)
+                rect.setAttribute('height', feb22[i][j]*4)
+                rect.setAttribute('width', 30)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=30
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                svg.appendChild(g)
+            }
+            x1+=20
+            x+=90
+        }
+        x1 = 0
+        cnt = 0
+        x = 0
+        for(i=0; i<feb29.length; i++){
+            cnt = 0
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('x', 750+60+x1)
+            // console.log(x1)
+            text.setAttribute('y', 650)
+            text.setAttribute('transform', 'rotate(-45 ' + `${750+100+x1}`+' 650)')
+            text.append(feb29city[i])
+            svg.appendChild(text)
+            for (j=0;j<feb11[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 750+x1+cnt)
+                rect.setAttribute('y', 600-feb29[i][j]*4)
+                rect.setAttribute('height', feb29[i][j]*4)
+                rect.setAttribute('width', 30)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=30
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                svg.appendChild(g)
+            }
+            x1+=20
+        }
+        x1 = 0
+        cnt = 0
+        var x = 50
+        for(i=0; i<mar3.length; i++){
+            cnt = 0
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('x', 60+x1)
+            // console.log(x1)
+            text.setAttribute('y', 1150)
+            text.setAttribute('transform', 'rotate(-45 ' + `${100+x1}`+' 1150)')
+            text.append(mar3city[i])
+            svg.appendChild(text)
+            for (j=0;j<mar3[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 50+x1+cnt)
+                rect.setAttribute('y', 1100-mar3[i][j]*1.5)
+                rect.setAttribute('height', mar3[i][j]*1.5)
+                rect.setAttribute('width', 17)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=17
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                // g.appendChild(text)
+                svg.appendChild(g)
+            }
+            x1+=20
+            x+=90
+        }
+        x1 = 0
+        cnt = 0
+        var x =10
+        total = [[433, 388, 36]]
+        for(i=0; i<3; i++){
+            cnt = 0
+            for (j=0;j<mar3[i].length;j++){
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+                rect.setAttribute('x', 50+x1+cnt)
+                rect.setAttribute('y', 1800-total[i][j])
+                rect.setAttribute('height', total[i][j])
+                rect.setAttribute('width', 60)
+                rect.setAttribute('fill', colors[cnt])
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+                title.append(entities[cnt])
+                x1+=100
+                cnt++
+                g.appendChild(rect)
+                g.appendChild(title)
+                // g.appendChild(text)
+                svg.appendChild(g)
+            }
+            x1+=20
+            x+=90
+        }
+	</script>
+</html>

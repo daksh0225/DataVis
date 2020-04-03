@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+<style>
+
+    .bar {
+  float: left;
+  width: 30px;
+  margin-right: 20px;
+  background-color: #F4F5F7;
+  border: 1px solid #C5C5C5;
+}
+
+    svg rect {
+        fill: orange;
+    }
+
+    svg text {
+        fill:white;
+        font: 10px sans-serif;
+        text-anchor: end;
+    }
+
+    
+
+</style>
+</head>
+<body>
+<div class="chaart">
+  <!--<div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+-->
+
+  <div class="bar"></div>
+
+</div>
+
+
+<div id="chart">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+
+  <div class="bar"></div>
+
+</div>
+
+
+<script>
+
+var Numbers = [15, 8, 42, 4, 32];
+function update(numbers) {
+  var selection = 
+  d3.select("#chart").selectAll(".bar").data(numbers).style("height", function(d){ 
+      return d + "px"; 
+    })
+    .style("margin-top", function(d){ 
+      return (100 - d) + "px"; 
+    });
+selection.enter()
+    .append("div").attr("class", "bar")
+    .style("height", function(d){ 
+      return d + "px"; 
+    })
+    .style("margin-top", function(d){ 
+      return (100 - d) + "px"; 
+    })
+    .on("click", function(e, i){
+      numbers.splice(i, 1);
+      update();
+    });
+  selection.exit().remove();
+};
+//update([[15, 15, 15, 15 ,15 ,15], [30, 30, 30, 30 ,30 ,30]]);
+
+update([30, 30, 30, 30, 30, 30]);
+
+
+	</script>
+
+</body>
+</html>

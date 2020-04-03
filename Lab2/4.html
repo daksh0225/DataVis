@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='4.css'>
+</head>
+<body>
+    <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-evenly; height: auto';>
+        <div class="buttons" id="buttons-a">
+            <input type='radio' value='2011' onclick="X('2011', this)" name='year' class="button active">
+            <div class="box" checked>2011</div>
+            <input type='radio' value='2012' onclick="X('2012', this)" name='year' class="button">
+            <div class="box">2012</div>
+            <input type='radio' value='2013' onclick="X('2013', this)" name='year' class="button">
+            <div class="box">2013</div>
+        </div>
+        <div class="type">
+            <label>Grouped</label>
+            <input type="radio" name="type" onclick="changeType(0)" value="grouped">
+            <label>Stacked</label>
+            <input type="radio" name="type" onclick="changeType(1)" value="stacked">
+        </div>
+    </div>
+    <div>
+        <svg width="1200" height="800" id="svg"></svg>
+    </div>
+    <script type='text/javascript' src='4.js'></script>
+</body>
+</html>

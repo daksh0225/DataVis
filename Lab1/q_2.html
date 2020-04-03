@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+	.bar_x {
+	fill:#deb887;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.bar_y {
+	fill:#5f9ea0;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.chart:hover, .chart:focus {
+		.bar_x, .bar_y {
+			fill: #aaa;
+		}
+	}
+
+	.bar_x:hover,
+	.bar_x:focus,.bar_y:hover,
+	.bar_y:focus {
+
+		fill:darkslateblue !important;
+
+		text {
+			fill: red;
+		}
+	}
+	.marker circle:hover, .marker circle:focus{
+		fill: grey;
+		cursor: pointer;
+	}
+	figcaption {
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 20px;
+	}
+
+	body {
+	font-family: 'Open Sans', sans-serif;
+	}
+	</style>
+</head>
+<body>
+	<p>Line Chart</p>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" aria-labelledby="title" role="img" viewbox="0 0 1000 2000" id="s">
+		<title id="title">A bart chart showing information</title>
+		<text x="200" y="410" dy="20">X</text>
+		<text x="625" y="410" dy="20">Y</text>
+		<text x="20" y="100">15</text>
+		<text x="20" y="160">12</text>
+		<text x="20" y="220">9</text>
+		<text x="20" y="280">6</text>
+		<text x="20" y="340">3</text>
+		<text x="20" y="400">0</text>
+		<text x="420" y="100">15</text>
+		<text x="420" y="160">12</text>
+		<text x="420" y="220">9</text>
+		<text x="420" y="280">6</text>
+		<text x="420" y="340">3</text>
+		<text x="420" y="400">0</text>
+		<line x1="50" y1="100" y2="400" x2="50" stroke="grey"></line>
+		<line x1="50" y1="400" y2="400" x2="400" stroke="grey"></line>
+		<line x1="450" y1="100" y2="400" x2="450" stroke="grey"></line>
+		<line x1="450" y1="400" y2="400" x2="800" stroke="grey"></line>
+	</svg>
+  
+	<script>
+		
+		var data_x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+		var data_y = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+		console.log(data_x.length)
+		var x = ''
+		function makeSVG(tag, attrs) {
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				el.setAttribute(k, attrs[k]);
+			return el;
+		}
+		const svg = document.getElementById('s')
+		
+		var x1 = 100, x2
+		x1 = 500
+		for(let i=0; i<data_x.length; i++){
+			if(i<data_x.length-1){
+				line=makeSVG('line', {x1: x1, y1: 400 - 20* data_y[i], x2: x1+25, y2: 400 - 20* data_y[i+1], stroke: '#5f9ea0', 'stroke-width': 2})
+				x1 = x1+25
+				document.getElementById('s').appendChild(line)
+			}
+		}
+		x1 = 100
+		for(let i=0; i<data_x.length; i++){
+			if(i<data_x.length-1){
+				// line=makeSVG('line', {x1: 700-20*data_x[i], y1: y1, x2: 700-20*data_x[i+1], y2: y1+25, stroke: '#deb887', 'stroke-width': 2})
+				path=makeSVG('path', {d: 'M'+`${x1}` + ' ' + `${400-data_x[i]*20}` + ' L' + `${x1+25}` + ' ' + `${400-data_x[i+1]*20}`, stroke: '#deb887', 'stroke-width': 2})
+				x1 = x1+25
+				document.getElementById('s').appendChild(path)
+			}
+		}
+	</script>
+</html>

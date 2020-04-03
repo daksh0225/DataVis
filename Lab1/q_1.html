@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+	.bar_x {
+	fill:#deb887;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.bar_y {
+	fill:#5f9ea0;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.chart:hover, .chart:focus {
+		.bar_x, .bar_y {
+			fill: #aaa;
+		}
+	}
+
+	.bar_x:hover,
+	.bar_x:focus,.bar_y:hover,
+	.bar_y:focus {
+
+		fill:darkslateblue !important;
+
+		text {
+			fill: red;
+		}
+	}
+	.marker circle:hover, .marker circle:focus{
+		fill: grey;
+		cursor: pointer;
+	}
+	figcaption {
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 20px;
+	}
+
+	body {
+	font-family: 'Open Sans', sans-serif;
+	}
+	</style>
+</head>
+<body>
+	<p>Bar Chart</p>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" aria-labelledby="title" role="img" viewbox="0 0 1000 2000" id="s">
+		<text x="300" y="40" dy="20">X</text>
+		<text x="500" y="40" dy="20">Y</text>
+	</svg>
+	
+  
+	<script>
+		
+		var data_x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+		var data_y = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+		console.log(data_x.length)
+		var x = ''
+		function makeSVG(tag, attrs) {
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				el.setAttribute(k, attrs[k]);
+			return el;
+		}
+		const svg = document.getElementById('s')
+		data_x.forEach((entry, index) => {
+			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+			g.setAttribute('class', 'bar_x')
+			const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+			bar.setAttribute('x', 400-data_x[index]*10);
+			bar.setAttribute('y', 100 + 20*index);
+			bar.setAttribute('height', `${19}px`);
+			bar.setAttribute('width', `${data_x[index]*10}px`);
+			bar.setAttribute('style', 'transition: 0.5s all;');
+			g.appendChild(bar);
+			const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+			text.setAttribute('x', 100);
+			text.setAttribute('y', 99 + 20*index);
+			text.setAttribute('dy', 20)
+			text.append(`${data_x[index]}`)
+			g.appendChild(text);
+			svg.appendChild(g)
+			// barChartElems.push(bar);
+		});
+		data_y.forEach((entry, index) => {
+			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+			g.setAttribute('class', 'bar_y')
+			const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+			bar.setAttribute('x', 410 );
+			bar.setAttribute('y', 100 + 20*index);
+			bar.setAttribute('height', `${19}px`);
+			bar.setAttribute('width', `${data_y[index]*10}px`);
+			bar.setAttribute('style', 'transition: 0.5s all;');
+			g.appendChild(bar);
+			const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+			text.setAttribute('x', 700);
+			text.setAttribute('y', 99 + 20*index);
+			text.setAttribute('dy', 20)
+			text.append(`${data_y[index]}`)
+			g.appendChild(text);
+			svg.appendChild(g)
+			// barChartElems.push(bar);
+		});
+	</script>
+</html>

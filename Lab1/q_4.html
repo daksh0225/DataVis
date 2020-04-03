@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+	.bar_x {
+	fill:#deb887;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.bar_y {
+	fill:#5f9ea0;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.chart:hover, .chart:focus {
+		.bar_x, .bar_y {
+			fill: #aaa;
+		}
+	}
+
+	.bar_x:hover,
+	.bar_x:focus,.bar_y:hover,
+	.bar_y:focus {
+
+		fill:darkslateblue !important;
+
+		text {
+			fill: red;
+		}
+	}
+	.marker circle:hover, .marker circle:focus{
+		fill: grey;
+		cursor: pointer;
+	}
+	figcaption {
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 20px;
+	}
+
+	body {
+	font-family: 'Open Sans', sans-serif;
+	}
+	</style>
+</head>
+<body>
+	<p>Scatter Plot</p>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" aria-labelledby="title" role="img" viewbox="0 0 1500 3000" id="s">
+		<line y1="500" x1="50" x2="50" y2="50" stroke="grey"></line>
+		<line y1="500" x1="600" x2="600" y2="50" stroke="grey"></line>
+		<line y1="50" x1="50" x2="600" y2="50" stroke="grey"></line>
+		<line y1="500" x1="50" x2="600" y2="500" stroke="grey"></line>
+	</svg>
+	
+  
+	<script>
+		
+		var data_x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+		var data_y = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+		console.log(data_x.length)
+		var x = ''
+		function makeSVG(tag, attrs) {
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				el.setAttribute(k, attrs[k]);
+			return el;
+		}
+		const svg = document.getElementById('s')
+		
+		line = makeSVG('line', {y1: 500-120, x1: 50+60, y2: 500-330, x2: 50+480, stroke: '#0074d9', 'stroke-width': 2})
+		document.getElementById('s').appendChild(line)
+		for(let i=0; i<data_x.length; i++){
+			const circle=makeSVG('circle', {cy: 500 - 30*data_y[i], cx: 50 + 30*data_x[i], r: 6, fill: 'red', class: 'dot'})
+			// const circle = document.createElementNS('h')
+			var a = 500-30*data_y[i], b = 50 + 39*data_x[i]
+			const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+			const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+			g.setAttribute('class', 'marker')
+			g.appendChild(circle)
+			const title = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+			title.append(data_x[i] + ', ' + data_y[i])
+			g.appendChild(title)
+			svg.appendChild(g)
+		}
+	</script>
+</html>

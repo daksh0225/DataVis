@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='1.css'>
+</head>
+<body>
+    <div class="buttons" id="buttons-a">
+        <input type='radio' value='2011' onclick="X('2011', this)" name='year' class="button active">
+        <div class="box" checked>2011</div>
+        <input type='radio' value='2012' onclick="X('2012', this)" name='year' class="button">
+        <div class="box">2012</div>
+        <input type='radio' value='2013' onclick="X('2013', this)" name='year' class="button">
+        <div class="box">2013</div>
+    </div>
+    <div class='T'>
+        T: <span id="t"></span>
+    </div>
+    <svg width="600" height="500"></svg>
+    <script type='text/javascript' src='1.js'></script>
+</body>
+</html>

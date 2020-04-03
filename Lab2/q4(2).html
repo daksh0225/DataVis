@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='4.css'>
+</head>
+<body>
+    <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-evenly; height: auto';>
+        <div class="buttons" id="buttons-a">
+            <input type='radio' value='2011' onclick="X('2011', this)" name='year' class="button active">
+            <div class="box" checked>2011</div>
+            <input type='radio' value='2012' onclick="X('2012', this)" name='year' class="button">
+            <div class="box">2012</div>
+            <input type='radio' value='2013' onclick="X('2013', this)" name='year' class="button">
+            <div class="box">2013</div>
+        </div>
+    </div>
+    <div>
+        <svg width="1200" height="800" id="svg1"></svg>
+    </div>
+    <div>
+        <svg width="1200" height="800" id="svg2"></svg>
+    </div>
+</body>
+<script>
+  var svg1 = d3.select("#svg1"),
+    margin = 200,
+    width = svg1.attr("width") - margin,
+    height = svg1.attr("height") - margin;
+var svg2 = d3.select("#svg2");
+var tooltip = d3.select("body")
+.append("div")
+.style("position", "absolute")
+.style("font-family", "'Open Sans', sans-serif")
+.style("font-size", "12px")
+.style("z-index", "10")
+.style("color" , "black")
+.style("visibility", "hidden")
+.style('padding', '5px')
+.style('border-radius', '5px')
+.style('transition', '0.05s')
+.style('background-color', 'salmon');
+
+function X(year, obj){
+    $('.active').toggleClass('active')
+    $(obj).addClass('active')
+    svg1.select('*').remove();
+    svg2.select('*').remove();
+    var x = 'X' + year
+    var y = 'Y' + year
+    var x0Scale = d3.scaleBand().rangeRound([0, width]),
+        yScale = d3.scaleLinear().rangeRound([height, 0]),
+        x1Scale = d3.scaleBand(),
+        color = d3.scaleOrdinal().range(['#e31b40', '#134071'])
+
+    var g1 = svg1.append("g")
+            .attr("transform", "translate(" + 100 + "," + 100 + ")");
+    var g2 = svg2.append("g")
+            .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+    d3.csv("First.csv", function(d, i, columns){
+            for(var i = 1, n = columns.length; i < n; i++) {
+                d[columns[i]] = +d[columns[i]];
+            }
+            return d;
+        }, function(error, data){
+            if(error){
+                throw error;
+            }
+            var keys = []
+            for(i in data.columns){
+                if(data.columns[i] === x || data.columns[i] === y){
+                    keys.push(data.columns[i])
+                }
+            }
+
+            series = d3.stack()
+            .keys(keys)(data)
+            .map(d => (d.forEach(v => v.key = d.key), d))
+            console.log(series)
+            var y1 = d3.scaleLinear()
+            .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
+            .rangeRound([height, 0])
+
+            // var color1 = d3.scaleOrdinal()
+            // .domain(series.map(d => d.key))
+            // .range(d3.schemeSpectral[series.length])
+            // .unknown("#ccc")
+
+            var x1 = d3.scaleBand().rangeRound([0, width]).domain(data.map(function(d){return d.Name})).padding(0.05)
+            // var mean = d3.mean(data, function(d){return d[x]})
+            // document.getElementById('t').innerHTML = mean
+            
+            x0Scale.domain(data.map(function(d){return d.Name})).padding(0.05)
+            x1Scale.domain(keys).rangeRound([0, x0Scale.bandwidth()])
+            yScale.domain([0, height/3])
+
+            g1.append('g')
+            .attr('transform', 'translate(0,'+height+')')
+            .call(d3.axisBottom(x0Scale))
+            .append("text")
+            .attr("y", height - 250)
+            .attr("x", width - 100)
+            .attr("text-anchor", "end")
+            .attr("stroke", "grey")
+            .attr('fill', 'grey')
+            .attr('font-size', '15px')
+            .text("Name")
+            .transition()
+            .duration('0.05s')
+
+            g1.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(function(d){
+                return d;
+            }).ticks(10))
+            .append("text")
+            .attr("y", 6)
+            .attr("transform", "rotate(-90)")
+            .attr("dy", "-3.1em")
+            .attr("text-anchor", "end")
+            .attr('stroke', 'grey')
+            .attr('fill', 'grey')
+            .attr('font-size', '15px')
+            .text(x+' | '+y)
+            .transition()
+            .duration('0.05s')
+
+            g2.append('g')
+            .attr('transform', 'translate(0,'+height+')')
+            .call(d3.axisBottom(x1))
+            .append("text")
+            .attr("y", height - 250)
+            .attr("x", width - 100)
+            .attr("text-anchor", "end")
+            .attr("stroke", "grey")
+            .attr('fill', 'grey')
+            .attr('font-size', '15px')
+            .text("Name")
+            .transition()
+            .duration('0.05s')
+
+            g2.append("g")
+            .call(d3.axisLeft(y1).tickFormat(function(d){
+                return d;
+            }).ticks(10))
+            .append("text")
+            .attr("y", 6)
+            .attr("transform", "rotate(-90)")
+            .attr("dy", "-3.1em")
+            .attr("text-anchor", "end")
+            .attr('stroke', 'grey')
+            .attr('fill', 'grey')
+            .attr('font-size', '15px')
+            .text(x+' | '+y)
+            .transition()
+            .duration('0.05s')
+
+            var gg1 = g1.selectAll('.bar-box')
+            .data(data)
+            .enter()
+            .append("g")
+            .attr('class', 'bar-box')
+            .attr('transform', function(d){ return 'translate('+x0Scale(d.Name)+', 0)'})
+
+            var gg2 = g2.selectAll('.bar-box')
+            .data(series)
+            .enter()
+            .append("g")
+            .attr('class', 'bar-box')
+            // .attr('transform', function(d, i){return 'translate('+x1(d[i].data.Name)+', 0)'})
+
+            gg1.selectAll('.bar-grouped')
+            .data(function(d){return keys.map(function(key){return {key: key, value: d[key]}; }); })
+            .enter()
+            .append("rect")
+            .attr('class', 'bar-grouped')
+            .attr('x', function(d){return x1Scale(d.key)})
+            .attr('y', function(d){return yScale(d.value)})
+            .attr('width', x1Scale.bandwidth())
+            .attr('height', function(d){return (height - yScale(d.value))})
+    	    .attr("fill", function(d) { return color(d.key); })
+            .on('mouseover', function(){
+                d3.select(this).style('fill', 'grey')
+            })
+            .on('mouseout', function(d){
+                d3.select(this).style('fill', color(d.key))
+            })
+
+            gg2.selectAll('.bar-stacked')
+            .data(d => d)
+            .enter()
+            .append('rect')
+            .attr('class', 'bar-stacked')
+            .attr('x', function(d){return x1(d.data.Name)})
+            .attr('y', function(d){return y1(d[1])})
+            .attr('height', function(d){return height - y1(d[1] - d[0])})
+            .attr('width', x1.bandwidth())
+            .attr('fill', function(d){return color(d.key)})
+            .on('mouseover', function(){
+                d3.select(this).style('fill', 'grey')
+            })
+            .on('mouseout', function(d){
+                d3.select(this).style('fill', color(d.key))
+            })
+
+            var legend1 = g1.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(keys.slice().reverse())
+            .enter()
+            .append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+            var legend2 = g2.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(keys.slice().reverse())
+            .enter()
+            .append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+            legend1.append("rect")
+            .attr("x", width + 24)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", color);
+      
+            legend1.append("text")
+            .attr("x", width + 19)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
+
+            legend2.append("rect")
+            .attr("x", width + 24)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", color);
+      
+            legend2.append("text")
+            .attr("x", width + 19)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
+    })
+}
+X(2011, $('.active'))
+</script>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+
+	.bar_x {
+	fill:#deb887;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.bar_y {
+	fill:#5f9ea0;
+	/* height: 21px; */
+	transition: fill .3s ease;
+	cursor: pointer;
+	font-family: Helvetica, sans-serif;
+
+	text {
+	fill: #555;
+	}
+	}
+	.chart:hover, .chart:focus {
+		.bar_x, .bar_y {
+			fill: #aaa;
+		}
+	}
+
+	.bar_x:hover,
+	.bar_x:focus,.bar_y:hover,
+	.bar_y:focus {
+
+		fill:darkslateblue !important;
+
+		text {
+			fill: red;
+		}
+	}
+	.marker circle:hover, .marker circle:focus{
+		fill: grey;
+		cursor: pointer;
+	}
+	figcaption {
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 20px;
+	}
+
+	body {
+	font-family: 'Open Sans', sans-serif;
+	}
+	</style>
+</head>
+<body>
+	<p>Area Chart</p>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" aria-labelledby="title" role="img" viewbox="0 0 1500 3000" id="s">
+		<title id="title">A bart chart showing information</title>
+		<text x="100" y="190" dy="20">10</text>
+		<text x="100" y="215" dy="20">8</text>
+		<text x="100" y="240" dy="20">13</text>
+		<text x="100" y="265" dy="20">9</text>
+		<text x="100" y="290" dy="20">11</text>
+		<text x="100" y="315" dy="20">14</text>
+		<text x="100" y="340" dy="20">6</text>
+		<text x="100" y="365" dy="20">4</text>
+		<text x="100" y="390" dy="20">12</text>
+		<text x="100" y="415" dy="20">7</text>
+		<text x="100" y="440" dy="20">5</text>
+		<text x="800" y="190" dy="20">8.04</text>
+		<text x="800" y="215" dy="20">6.95</text>
+		<text x="800" y="240" dy="20">7.58</text>
+		<text x="800" y="265" dy="20">8.81</text>
+		<text x="800" y="290" dy="20">8.33</text>
+		<text x="800" y="315" dy="20">9.96</text>
+		<text x="800" y="340" dy="20">7.24</text>
+		<text x="800" y="365" dy="20">4.26</text>
+		<text x="800" y="390" dy="20">10.84</text>
+		<text x="800" y="415" dy="20">4.82</text>
+		<text x="800" y="440" dy="20">5.68</text>
+	</svg>
+	
+  
+	<script>
+		
+		var data_x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+		var data_y = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+		console.log(data_x.length)
+		var x = ''
+		function makeSVG(tag, attrs) {
+			var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				el.setAttribute(k, attrs[k]);
+			return el;
+		}
+		const svg = document.getElementById('s')
+		
+		y1=200
+		for(let i=0; i<data_x.length; i++){
+			if(i<data_x.length-1){
+				// line=makeSVG('line', {x1: 700-20*data_x[i], y1: y1, x2: 700-20*data_x[i+1], y2: y1+25, stroke: '#deb887', 'stroke-width': 2})
+				path=makeSVG('path', {d: 'M500 ' + `${y1}` + ' L' + `${500-20*data_x[i]}` + ' ' + `${y1}` + ' L' + `${500-20*data_x[i+1]}` + ' ' + `${y1+25}` + ' L500' + ' ' + `${y1+25}`+ ' Z', fill: '#deb887', stroke: '#deb887'})
+				y1 = y1+25
+				document.getElementById('s').appendChild(path)
+			}
+		}
+		y1=200
+		for(let i=0; i<data_x.length; i++){
+			if(i<data_x.length-1){
+				// line=makeSVG('line', {x1: 720+20*data_y[i], y1: y1, x2: 720+20*data_y[i+1], y2: y1+25, stroke: '#5f9ea0', 'stroke-width': 2})
+				path=makeSVG('path', {d: 'M520 ' + `${y1}` + ' L' + `${520+20*data_y[i]}` + ' ' + `${y1}` + ' L' + `${520+20*data_y[i+1]}` + ' ' + `${y1+25}` + ' L520' + ' ' + `${y1+25}`+ ' Z', fill: '#5f9ea0', stroke: '#5f9ea0'})
+				y1 = y1+25
+				document.getElementById('s').appendChild(path)
+			}
+		}
+	</script>
+</html>
